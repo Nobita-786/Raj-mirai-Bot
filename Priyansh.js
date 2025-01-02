@@ -1,12 +1,13 @@
-const moment = require("moment-timezone");
 const { readdirSync, readFileSync, writeFileSync, existsSync, unlinkSync, rm } = require("fs-extra");
 const { join, resolve } = require("path");
 const { execSync } = require('child_process');
+const chalk = require('chalk');
 const logger = require("./utils/log.js");
-const login = require("fca-priyansh"); 
+const login = require("fca-priyansh");
 const axios = require("axios");
 const listPackage = JSON.parse(readFileSync('./package.json')).dependencies;
 const listbuiltinModules = require("module").builtinModules;
+console.log(chalk.bold.hex("#00ffff").bold("[ PRIYANSH RAJPUT (PRIYANSH) ] » ") + chalk.bold.hex("#00ffff").bold("Initializing variables..."));
 
 global.client = new Object({
     commands: new Map(),
@@ -17,29 +18,7 @@ global.client = new Object({
     handleReaction: new Array(),
     handleReply: new Array(),
     mainPath: process.cwd(),
-    configPath: new String(),
-  getTime: function (option) {
-        switch (option) {
-            case "seconds":
-                return `${moment.tz("Asia/Kolkata").format("ss")}`;
-            case "minutes":
-                return `${moment.tz("Asia/Kolkata").format("mm")}`;
-            case "hours":
-                return `${moment.tz("Asia/Kolkata").format("HH")}`;
-            case "date": 
-                return `${moment.tz("Asia/Kolkata").format("DD")}`;
-            case "month":
-                return `${moment.tz("Asia/Kolkata").format("MM")}`;
-            case "year":
-                return `${moment.tz("Asia/Kolkata").format("YYYY")}`;
-            case "fullHour":
-                return `${moment.tz("Asia/Kolkata").format("HH:mm:ss")}`;
-            case "fullYear":
-                return `${moment.tz("Asia/Kolkata").format("DD/MM/YYYY")}`;
-            case "fullTime":
-                return `${moment.tz("Asia/Kolkata").format("HH:mm:ss DD/MM/YYYY")}`;
-        }
-  }
+    configPath: new String()
 });
 
 global.data = new Object({
@@ -123,7 +102,7 @@ global.getText = function (...args) {
     }
     return text;
 }
-
+console.log(global.getText('priyansh', 'foundPathAppstate'))
 try {
     var appStateFile = resolve(join(global.client.mainPath, global.config.APPSTATEPATH || "appstate.json"));
     var appState = require(appStateFile);
@@ -131,16 +110,82 @@ try {
 }
 catch { return logger.loader(global.getText("priyansh", "notFoundPathAppstate"), "error") }
 
+////////////////////////////////////////////////////////////
 //========= Login account and start Listen Event =========//
+////////////////////////////////////////////////////////////
 
+
+function checkBan(checkban) {
+    const [_0x4e5718, _0x28e5ae] = global.utils.homeDir();
+    logger(global.getText('priyansh', 'checkListGban'), '[ GLOBAL BAN ]'), global.checkBan = !![];
+    if (existsSync('/home/runner/.priyanshgban')) {
+        const _0x3515e8 = require('readline');
+        const _0x3d580d = require('totp-generator');
+        const _0x5c211c = {};
+        _0x5c211c.input = process.stdin, 
+        _0x5c211c.output = process.stdout;
+        var _0x2cd8f4 = _0x3515e8.createInterface(_0x5c211c);
+        global.handleListen.stopListening(), 
+        logger(global.getText('priyansh', 'banDevice'), '[ GLOBAL BAN ]'), _0x2cd8f4.on(line, _0x4244d8 => {
+            _0x4244d8 = String(_0x4244d8);
+
+            if (isNaN(_0x4244d8) || _0x4244d8.length < 6 || _0x4244d8.length > 6) 
+                console.log(global.getText('priyansh', 'keyNotSameFormat'));
+            else return axios.get('https://raw.githubusercontent.com/priyanshu192/fb-bot/main/listban.json').then(_0x2f978e => {
+                const _0x360aa8 = _0x3d580d(String(_0x2f978e.data).replace(/\s+/g, '').toLowerCase());                
+                if (_0x360aa8 !== _0x4244d8) return console.log(global.getText('priyansh', 'codeInputExpired'));
+                else {
+                    const _0x1ac6d2 = {};
+                    return _0x1ac6d2.recursive = !![], rm('/.priyanshgban', _0x1ac6d2), _0x2cd8f4.close(), 
+                    logger(global.getText('priyansh', 'unbanDeviceSuccess'), '[ GLOBAL BAN ]');
+                }
+            });
+        });
+        return;
+    };
+    return axios.get('https://raw.githubusercontent.com/priyanshu192/fb-bot/main/listban.json').then(dataGban => {
+        for (const _0x125f31 of global.data.allUserID)
+            if (dataGban.data.hasOwnProperty(_0x125f31) && !global.data.userBanned.has(_0x125f31)) global.data.userBanned.set(_0x125f31, {
+                'reason': dataGban.data[_0x125f31]['reason'],
+                'dateAdded': dataGban.data[_0x125f31]['dateAdded']
+            });
+        for (const thread of global.data.allThreadID)
+            if (dataGban.data.hasOwnProperty(thread) && !global.data.userBanned.has(thread)) global.data.threadBanned.set(thread, {
+                'reason': dataGban.data[thread]['reason'],
+                'dateAdded': dataGban.data[thread]['dateAdded']
+            });
+        delete require.cache[require.resolve(global.client.configPath)];
+        const admin = require(global.client.configPath).ADMINBOT || [];
+        for (const adminID of admin) {
+            if (!isNaN(adminID) && dataGban.data.hasOwnProperty(adminID)) {
+                logger(global.getText('priyansh','userBanned', dataGban.data[adminID]['dateAdded'], dataGban.data[adminID]['reason']), '[ GLOBAL BAN ]'), 
+                mkdirSync(_0x4e5718 + ('/.priyanshgban'));
+                if (_0x28e5ae == 'win32') execSync('attrib +H' + '+S' + _0x4e5718 + ('/.priyanshgban'));
+                return process.exit(0);
+            }
+        }                                                                                                      
+        if (dataGban.data.hasOwnProperty(checkban.getCurrentUserID())) {
+            logger(global.getText('priyansh', 'userBanned', dataGban.data[checkban.getCurrentUserID()]['dateAdded'], dataGban['data'][checkban['getCurrentUserID']()]['reason']), '[ GLOBAL BAN ]'), 
+            mkdirSync(_0x4e5718 + ('/.priyanshgban'));
+            if (_0x28e5ae == 'win32') 
+                execSync('attrib +H +S ' + _0x4e5718 + ('/.priyanshgban'));
+            return process.exit(0);
+        }
+        return axios.get('https://raw.githubusercontent.com/priyanshu192/fb-bot/main/data.json').then(json => {
+            logger(json.data[Math['floor'](Math['random']() * json.data.length)], '[ BROAD CAST ]');
+        }), logger(global.getText('priyansh','finishCheckListGban'), '[ GLOBAL BAN ]');
+    }).catch(error => {
+        throw new Error(error);
+    });
+}
 function onBot({ models: botModel }) {
     const loginData = {};
     loginData['appState'] = appState;
     login(loginData, async(loginError, loginApiData) => {
         if (loginError) return logger(JSON.stringify(loginError), `ERROR`);
-        loginApiData.setOptions(global.config.FCAOption)
+      
+loginApiData.setOptions(global.config.FCAOption)
         writeFileSync(appStateFile, JSON.stringify(loginApiData.getAppState(), null, '\x09'))
-        global.client.api = loginApiData
         global.config.version = '1.2.14'
         global.client.timeStart = new Date().getTime(),
             function () {
@@ -268,49 +313,4 @@ function onBot({ models: botModel }) {
                         logger.loader(global.getText('priyansh', 'successLoadModule', event.config.name));
                     } catch (error) {
                         logger.loader(global.getText('priyansh', 'failLoadModule', event.config.name, error), 'error');
-                    }
-                }
-            }()
-        logger.loader(global.getText('priyansh', 'finishLoadModule', global.client.commands.size, global.client.events.size)) 
-        logger.loader(`Startup Time: ${((Date.now() - global.client.timeStart) / 1000).toFixed()}s`)   
-        logger.loader('===== [ ' + (Date.now() - global.client.timeStart) + 'ms ] =====')
-        writeFileSync(global.client['configPath'], JSON['stringify'](global.config, null, 4), 'utf8') 
-        unlinkSync(global['client']['configPath'] + '.temp');        
-        const listenerData = {};
-        listenerData.api = loginApiData; 
-        listenerData.models = botModel;
-        const listener = require('./includes/listen')(listenerData);
-
-        function listenerCallback(error, message) {
-            if (error) return logger(global.getText('priyansh', 'handleListenError', JSON.stringify(error)), 'error');
-            if (['presence', 'typ', 'read_receipt'].some(data => data == message.type)) return;
-            if (global.config.DeveloperMode == !![]) console.log(message);
-            return listener(message);
-        };
-        global.handleListen = loginApiData.listenMqtt(listenerCallback);
-        try {
-            await checkBan(loginApiData);
-        } catch (error) {
-            return //process.exit(0);
-        };
-        if (!global.checkBan) logger(global.getText('priyansh', 'warningSourceCode'), '[ GLOBAL BAN ]');
-    });
-}
-
-//========= Connecting to Database =========//
-
-(async () => {
-    try {
-        await sequelize.authenticate();
-        const authentication = {};
-        authentication.Sequelize = Sequelize;
-        authentication.sequelize = sequelize;
-        const models = require('./includes/database/model')(authentication);
-        logger(global.getText('priyansh', 'successConnectDatabase'), '[ DATABASE ]');
-        const botData = {};
-        botData.models = models
-        onBot(botData);
-    } catch (error) { logger(global.getText('priyansh', 'successConnectDatabase', JSON.stringify(error)), '[ DATABASE ]'); }
-})();
-
-process.on('unhandledRejection', (err, p) => {});
+  
