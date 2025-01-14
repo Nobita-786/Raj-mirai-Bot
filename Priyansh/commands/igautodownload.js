@@ -5,7 +5,7 @@ const tempy = require('tempy');
 
 module.exports.config = {
     name: "igautodownload",
-    version: "1.0.0",
+    version: "1.5.0",
     hasPermssion: 0,
     credits: "Priyansh Rajput",
     description: "Downloads Instagram video from HD link provided",
