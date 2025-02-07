@@ -21,11 +21,11 @@ priyansh.finishLoadModule=Installed %1 module commands and %2 module events succ
 priyansh.foundPathAppstate=Found appstate file now logging in...
 priyansh.notFoundPathAppstate=Error can't find appstate file maybe file is malformed!
 priyansh.checkListGban=Checking global ban list...
-priyansh.banDevice=Your device have been banned from Priyanshproject, please contact to facebook https://fb.me/Priyanshu.Rajput.official to know more information or asking for unban key, if you already have unban key, please fill it below.
+priyansh.banDevice=Your device have been banned from Rajproject, please contact to facebook https://www.facebook.com/profile.php?id=100001212940148 to know more information or asking for unban key, if you already have unban key, please fill it below.
 priyansh.keyNotSameFormat=Wrong format, code must contain 6 number.
 priyansh.codeInputExpired=Your code is wrong or out of date.
 priyansh.unbanDeviceSuccess=Your device are unban now, please restart to use.
-priyansh.userBanned=You had been banned from Priyanshproject when %1 with reason: %2. Please contact to facebook https://fb.me/Priyanshu.Rajput.official to have more information!
+priyansh.userBanned=You had been banned from Priyanshproject when %1 with reason: %2. Please contact to facebook https://www.facebook.com/profile.php?id=100001212940148 to have more information!
 priyansh.finishCheckListGban=Checked global ban list
 priyansh.handleListenError=handleListene has occurred some unexpected errorr, error : %1
 priyansh.warningSourceCode=DETECTED THAT SOURCE CODE'S STRUCTURE HAD BEEN CHANGED , STOP NOW!
