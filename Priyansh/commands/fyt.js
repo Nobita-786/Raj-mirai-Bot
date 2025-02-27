@@ -1,11 +1,11 @@
 module.exports.config = {
-    name: "fyt",
+    name: "fight",
     version: "1.0.0",
     hasPermssion: 2,
     credits: "𝐏𝐫𝐢𝐲𝐚𝐧𝐬𝐡 𝐑𝐚𝐣𝐩𝐮𝐭",
     description: "War In Chatbox",
     commandCategory: "wargroup",
-    usages: "[fyt]",
+    usages: "[fight]",
     cooldowns: 7,
     dependencies: {
         "fs-extra": "",
